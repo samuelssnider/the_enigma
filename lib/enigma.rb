@@ -1,7 +1,7 @@
 require 'date'
 class Enigma
 
-  attr_reader :key, :key_array, :date, :converted_date
+  attr_reader :key, :key_array, :date, :converted_date, :offset_array
 
   def initialize
     @key = 41521
@@ -12,6 +12,7 @@ class Enigma
     @date = Date.new(2017,7,8)
     @converted_date
     date_conversion
+    cdate_offset
 
 
   end
@@ -32,7 +33,13 @@ class Enigma
   end
 
   def cdate_offset
-    offset_string = @converted_date.to_i
+    offset_data = @converted_date.to_i
+    offset_data = (offset_data ** 2).to_s
+    length = offset_data.length
+    @offset_array << offset_data[length - 4].to_i
+    @offset_array << offset_data[length - 3].to_i
+    @offset_array << offset_data[length - 2].to_i
+    @offset_array << offset_data[length - 1].to_i
   end
 
 
