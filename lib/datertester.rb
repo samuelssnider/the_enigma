@@ -1,1 +1,1 @@
-puts time = Time.now
+puts Random.new.rand(2)

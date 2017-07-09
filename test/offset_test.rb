@@ -6,6 +6,10 @@ require './lib/Offset'
 
 class Code_Test <  Minitest::Test
 
+  def setup
+    @the_offset = Offset.new
+  end
+
   def test_instance_of_Offset
     e = Offset.new
     refute_nil e
@@ -24,9 +28,9 @@ class Code_Test <  Minitest::Test
 
   def test_Offset_initializes_date
     e = Offset.new
-    assert_equal e.date.year, 2017
-    assert_equal e.date.month,7
-    assert_equal e.date.day, 9
+    assert_equal e.date.year, Time.now.year
+    assert_equal e.date.month, Time.now.month
+    assert_equal e.date.day, Time.now.day
   end
 
   def test_date_conversion
