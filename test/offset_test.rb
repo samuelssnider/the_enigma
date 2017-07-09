@@ -39,4 +39,9 @@ class Code_Test <  Minitest::Test
     assert_equal e.offset_array, [4,0,8,9]
   end
 
+  def test_rotation_array_is_right
+    e = Offset.new
+    assert_equal e.rotation_array, [45, 15, 60, 30]
+  end
+
 end
