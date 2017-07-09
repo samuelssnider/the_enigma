@@ -1,5 +1,5 @@
-require 'date'
-class Enigma
+require 'time'
+class Offset
 
   attr_reader :key, :key_array, :date, :converted_date, :offset_array
 
@@ -9,7 +9,7 @@ class Enigma
     @offset_array = []
     @rotation_array = []
     building_key
-    @date = Date.new(2017,7,8)
+    @date = Time.now
     @converted_date
     date_conversion
     cdate_offset

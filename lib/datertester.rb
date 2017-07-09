@@ -1,0 +1,1 @@
+puts time = Time.now
