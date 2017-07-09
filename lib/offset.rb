@@ -1,7 +1,12 @@
 require 'time'
 class Offset
 
-  attr_reader :key, :key_array, :date, :converted_date, :offset_array
+  attr_reader :key,
+              :key_array,
+              :date,
+              :converted_date,
+              :offset_array,
+              :rotation_array
 
   def initialize
     @key = 41521
@@ -13,6 +18,7 @@ class Offset
     @converted_date
     date_conversion
     cdate_offset
+    rotation_calculation
 
 
   end
@@ -40,6 +46,13 @@ class Offset
     @offset_array << offset_data[length - 3].to_i
     @offset_array << offset_data[length - 2].to_i
     @offset_array << offset_data[length - 1].to_i
+  end
+
+  def rotation_calculation
+    @offset_array.each_with_index do |position, i|
+      @rotation_array << position + @key_array[i]
+    end
+    @rotation_array
   end
 
 
