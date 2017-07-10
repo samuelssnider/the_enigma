@@ -27,6 +27,11 @@ class Enigma_Test < Minitest:: Test
     assert_equal "9a54 b65.c76,d87ae98bf 9", e.decrypt("aaaabbbbccccddddeeeeffff")
   end
 
+  def test_crack_is_working
+    e = Enigma.new
+    assert_equal "hey", e.crack("a82ab")
+  end
+
 
 
 

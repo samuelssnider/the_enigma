@@ -75,7 +75,11 @@ class Enigma
     @offset.offset_array
     length = secret_msg.length
     cracker_string = secret_msg[(length - 4)..(length - 1)]
+    a_wo_key = @key_map.find_index(cracker_string[0]) - @offset_array[0]
+    a_key = @key_map.find_index("n") - a_wo_key
+    binding.pry
   end
+
 
 
 end
