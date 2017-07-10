@@ -4,12 +4,15 @@ require './lib/offset'
 class Enigma
   attr_reader :key,
               :date,
-              :message
-              :decrypted
+              :message,
+              :decrypted,
+              :key_ary
+
   def initialize(key = KeyGen.new, date = Time.now)
     @offset = Offset.new(key)
     @key = key
     @date = date
+    @key_ary = []
     @rotation = @offset.rotation_array
     @a_ro = @rotation[0] % 39
     @b_ro = @rotation[1] % 39
@@ -75,9 +78,18 @@ class Enigma
     @offset.offset_array
     length = secret_msg.length
     cracker_string = secret_msg[(length - 4)..(length - 1)]
-    a_wo_key = @key_map.find_index(cracker_string[0]) - @offset_array[0]
+    a_wo_key = @key_map.find_index(cracker_string[0]) - @offset.offset_array[0]
     a_key = @key_map.find_index("n") - a_wo_key
-    binding.pry
+    b_wo_key = @key_map.find_index(cracker_string[1]) - @offset.offset_array[1]
+    b_key = @key_map.find_index("d") - b_wo_key
+    c_wo_key = @key_map.find_index(cracker_string[2]) - @offset.offset_array[2]
+    c_key = @key_map.find_index(".") - c_wo_key
+    d_wo_key = @key_map.find_index(cracker_string[3]) - @offset.offset_array[3]
+    d_key = @key_map.find_index(".") - d_wo_key
+    @key_ary << a_key
+    @key_ary << b_key
+    @key_ary << c_key
+    @key_ary << d_key
   end
 
 

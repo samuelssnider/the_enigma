@@ -35,7 +35,7 @@ class Code_Test <  Minitest::Test
 
   def test_date_conversion
     e = Offset.new
-    assert_equal e.converted_date, "090717"
+    assert_equal e.converted_date, "100717"
   end
 
   def test_offset_value

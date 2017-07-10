@@ -18,7 +18,7 @@ class Offset
     @rotation_array = []
     building_key
     @date = Time.now
-    @converted_date
+    # @converted_date
     date_conversion
     cdate_offset
     rotation_calculation
