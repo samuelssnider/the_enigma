@@ -1,1 +1,3 @@
-puts Random.new.rand(2)
+string = "Hey"
+string[1] = "i"
+puts string

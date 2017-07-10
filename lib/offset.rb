@@ -8,8 +8,11 @@ class Offset
               :offset_array,
               :rotation_array
 
-  def initialize
-    @key = 41521
+  def initialize(key = 41521)
+    @key = key
+    if @key
+      cracker
+    end
     @key_array = []
     @offset_array = []
     @rotation_array = []
@@ -19,8 +22,6 @@ class Offset
     date_conversion
     cdate_offset
     rotation_calculation
-
-
   end
 
   def building_key
