@@ -71,5 +71,11 @@ class Enigma
     @key_map[index - key]
   end
 
+  def crack(secret_msg, date = Time.now)
+    @offset.offset_array
+    length = secret_msg.length
+    cracker_string = secret_msg[(length - 4)..(length - 1)]
+  end
+
 
 end

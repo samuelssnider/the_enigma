@@ -10,9 +10,9 @@ class Offset
 
   def initialize(key = 41521)
     @key = key
-    if @key
-      cracker
-    end
+    # if @key == nil
+    #   cracker
+    # end
     @key_array = []
     @offset_array = []
     @rotation_array = []
