@@ -2,15 +2,14 @@ require 'pry'
 require 'time'
 require './lib/offset'
 class Enigma
-  attr_reader :key,
+  attr_reader :offset,
               :date,
               :message,
               :decrypted,
               :key_ary
 
-  def initialize(key = KeyGen.new, date = Time.now)
-    @offset = Offset.new(key)
-    @key = key
+  def initialize(date = Time.now)
+    @offset = Offset.new
     @date = date
     @key_ary = []
     @rotation = @offset.rotation_array
@@ -24,14 +23,6 @@ class Enigma
                'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
                'y', 'z', '0', '1' ,'2', '3', '4', '5',
                '6', '7', '8', '9', ' ', '.', ',']
-  end
-
-  def message
-    @message
-  end
-
-  def decrypted
-    @decrypted
   end
 
 

@@ -8,8 +8,8 @@ class Offset
               :offset_array,
               :rotation_array
 
-  def initialize(key = 41521)
-    @key = key
+  def initialize
+    @key = 41521
     # if @key == nil
     #   cracker
     # end
