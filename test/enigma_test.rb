@@ -19,7 +19,7 @@ class Enigma_Test < Minitest:: Test
     e = Enigma.new
     e.decrypt("hey dude ..end..")
     assert_equal "b2dg fvn4wqnh1qh", e.decrypt("hey dude ..end..")
-    assert_equal "b2dg fvn4wqnh1qh4z3jg,", e.decrypt("hey dude ..end.. blamo")
+    assert_equal "8..end..", e.decrypt("bnt8tst2")
   end
 
   def test_visualizing_decrypt
@@ -28,9 +28,11 @@ class Enigma_Test < Minitest:: Test
   end
 
   def test_crack_is_working
-    skip
     e = Enigma.new
-    assert_equal "hey", e.crack("a82ab")
+    assert_equal "8..end..", e.crack("bnt8tst2")
+    assert_equal "28..end..", e.crack("8kt2k2y2e")
+    assert_equal "128..end..", e.crack("7eq2et87en")
+    assert_equal "7128..end..", e.crack("adkzenzejnt")
   end
 
 
