@@ -10,5 +10,6 @@ class KeyGen_Test < Minitest::Test
     kg = KeyGen.new
     refute_nil kg
     assert_equal Fixnum, kg.key_out.class
+    # assert_equal 32142, kg.key_out
   end
 end

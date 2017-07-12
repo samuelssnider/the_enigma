@@ -1,4 +1,6 @@
+require 'pry'
 require 'time'
+require './lib/key_gen'
 class Offset
 
   attr_reader :key,
@@ -8,32 +10,31 @@ class Offset
               :rotation_array
   attr_accessor :date
 
-  def initialize(key = 41521)
-    @key = key
+  def initialize(key = KeyGen.new.key_out, date = Time.now)
+    @key = key.to_i
     # if @key == nil
     #   cracker
     # end
     @key_array = []
     @offset_array = []
     @rotation_array = []
-    @date = Time.now
+    @date = date
     runner
   end
 
-  def set_key(key)
-    if @key != key
-      binding.pry
-      @key = key
-      runner
-    end
+  def change_key_set(key_set)
+    @key_array = key_set
+    rotation_calculation
   end
 
-  def set_date(date)
-    if @date != date
-      @date = date
-      runner
-    end
-  end
+  # def set_date(date)
+  #   if @date != date
+  #     @date = date
+  #     runner
+  #   end
+  # end
+
+
 
   def runner
     building_key
@@ -69,13 +70,13 @@ class Offset
   end
 
   def rotation_calculation
+    # binding.pry
+    @rotation_array = []
     @offset_array.each_with_index do |position, i|
       @rotation_array << position + @key_array[i]
     end
     @rotation_array
   end
-
-
 
 
 end
