@@ -20,6 +20,21 @@ class Offset
     runner
   end
 
+  def set_key(key)
+    if @key != key
+      binding.pry
+      @key = key
+      runner
+    end
+  end
+
+  def set_date(date)
+    if @date != date
+      @date = date
+      runner
+    end
+  end
+
   def runner
     building_key
     date_conversion

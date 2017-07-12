@@ -11,57 +11,87 @@ class Enigma
 
   def initialize(date = Time.now)
     @offset = Offset.new
+    @key = @offset.key
     @date = date
     @key_ary = []
     @rotation = @offset.rotation_array
-    @rotation
     @a_ro = @rotation[0] % 39
     @b_ro = @rotation[1] % 39
     @c_ro = @rotation[2] % 39
     @d_ro = @rotation[3] % 39
-    @decrypted = ''
     @key_map = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
                'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
                'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
                'y', 'z', '0', '1' ,'2', '3', '4', '5',
                '6', '7', '8', '9', ' ', '.', ',']
+    # write_to_file
   end
 
 
 
 
-  # def encrypt(@message, @key, @date)
-  # end
-
-
-  def decrypt(message, key = @key, date = @date)
-    @offset = Offset.new(key)
-    @decrypted = message
+  def encrypt(message, key = @key, date = @date)
+    @offset.set_key(key)
+    @offset.set_date(date)
+    encrypted = message
     length = message.length
     counter = 0
     while counter < message.length
-      @decrypted[counter] = rvs_rotate(message[counter], @a_ro)
+      encrypted[counter] = rotate(message[counter], @a_ro)
       counter += 4
     end
     counter = 1
     while counter < message.length
-      @decrypted[counter] = rvs_rotate(message[counter], @b_ro)
+      encrypted[counter] = rotate(message[counter], @b_ro)
       counter += 4
     end
     counter = 2
     while counter < message.length
-      @decrypted[counter] = rvs_rotate(message[counter], @c_ro)
+      encrypted[counter] = rotate(message[counter], @c_ro)
       counter += 4
     end
     counter = 3
     while counter < message.length
-      @decrypted[counter] = rvs_rotate(message[counter], @d_ro)
+      encrypted[counter] = rotate(message[counter], @d_ro)
       counter += 4
     end
-    @decrypted
+    encrypted
   end
 
 
+
+  def decrypt(message, key = @key, date = @date)
+    @offset.set_key(key)
+    @offset.set_date(date)
+    decrypted = message
+    length = message.length
+    counter = 0
+    while counter < message.length
+      decrypted[counter] = rvs_rotate(message[counter], @a_ro)
+      counter += 4
+    end
+    counter = 1
+    while counter < message.length
+      decrypted[counter] = rvs_rotate(message[counter], @b_ro)
+      counter += 4
+    end
+    counter = 2
+    while counter < message.length
+      decrypted[counter] = rvs_rotate(message[counter], @c_ro)
+      counter += 4
+    end
+    counter = 3
+    while counter < message.length
+      decrypted[counter] = rvs_rotate(message[counter], @d_ro)
+      counter += 4
+    end
+    decrypted
+  end
+
+  def rotate(char, key)
+    index= @key_map.find_index(char)
+    @key_map[(index + key) % 39]
+  end
 
   def rvs_rotate(char, key)
     index = @key_map.find_index(char)
@@ -102,13 +132,17 @@ class Enigma
     # c_key = c_key_diff - @offset.offset_array[2]
     # d_key_diff = @key_map.find_index(cracker_string[3]) - @key_map.find_index(".")
     # d_key = d_key_diff - @offset.offset_array[3]
+    @key_ary = []
     @key_ary << a_key
     @key_ary << b_key
     @key_ary << c_key
     @key_ary << d_key
     # decrypt(secret_msg, @key_ary)
-    @key_ary
-    key = (a_key.to_s + (b_key % 10).to_s + (c_key % 10).to_s + (d_key % 10).to_s)
+    @rotation = @key_ary
+    # @a_ro = @key_ary[0]
+    # @b_ro = @key_ary[1]
+    # @c_ro = @key_ary[2]
+    # @d_ro = @key_ary[3]
     decrypt(secret_msg)
   end
 
@@ -131,13 +165,22 @@ class Enigma
   # c_key = @key_map.find_index(".") - c_wo_key
   # d_wo_key = @key_map.find_index(cracker_string[3]) - @offset.offset_array[3]
   # d_key = @key_map.find_index(".") - d_wo_key
+  def write_to_file
+    lines = []
+    File.open(ARGV[0], 'r') do |f1|
+      while line = f1.gets
+        lines << decrypt(line)
+      end
+    end
+    File.open(ARGV[1], 'w') do |f2|
+      f2.puts lines
+    end
+  end
 
-
-
-end
-  write = File.new(ARGV[1], "w"){
-  write << File.open(ARGV[0], "w"){|file| write.encrpty(ARGV[0].readlines)}
-  }
+# end
+#   write = File.new(ARGV[1], "w"){
+#   write << File.open(ARGV[0], "w"){|file| write.encrpty(ARGV[0].readlines)}
+#   }
 
   # writer = ARGV[1]
   # encrypted = File.new("./data/#{writer}", "w"){
@@ -151,3 +194,4 @@ end
   # write.close
   # reader.close
   # }
+end

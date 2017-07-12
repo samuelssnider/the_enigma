@@ -35,6 +35,14 @@ class Enigma_Test < Minitest:: Test
     assert_equal "7128..end..", e.crack("adkzenzejnt")
   end
 
+  def test_encrypt_is_working
+    e = Enigma.new
+    assert_equal "bnt8tst2", e.encrypt("8..end..")
+    assert_equal "8kt2k2y2e" , e.encrypt("28..end..")
+    assert_equal "7eq2et87en", e.encrypt("128..end..")
+    assert_equal "adkzenzejnt", e.encrypt("7128..end..")
+  end
+
 
 
 
