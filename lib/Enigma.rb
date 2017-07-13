@@ -43,7 +43,7 @@ class Enigma
   end
 
 
-  def encrypt(message, key = @key, date = @date)
+  def encrypt(message, key = @key, date = @date, file_bool =false)
     @offset = Offset.new(key.to_i, date)
     set_rotation
     message.chomp
@@ -74,9 +74,17 @@ class Enigma
 
 
 
-  def decrypt(message, key = @key, date = @date)
-    @offset = Offset.new(key.to_i, date)
-    set_rotation
+  def decrypt(message, key = @key, date = @date, file_bool = false)
+    unless file_bool
+      @offset = Offset.new(key.to_i, date)
+      set_rotation
+    end
+      # key_ary = @key.split("/")
+      # @a_ro = key_ary[0] + 4
+      # @b_ro = key_ary[1] + 0
+      # @c_ro = key_ary[2] + 8
+      # @d_ro = key_ary[3] + 9
+
     message.chomp
     decrypted = message
     length = message.length
@@ -157,7 +165,7 @@ class Enigma
     set_rotation
     # @a_ro = @key_ary[0]
     # binding.pry
-    orignial = decrypt(secret_msg)
+    orignial = decrypt(secret_msg, 1, 1, true)
   end
 
   def key_calculation(coded_char, known_char, offset)
