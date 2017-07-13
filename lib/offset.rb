@@ -1,5 +1,5 @@
 require 'pry'
-require 'time'
+require 'date'
 require './lib/key_gen'
 class Offset
 
@@ -10,7 +10,7 @@ class Offset
               :rotation_array
   attr_accessor :date
 
-  def initialize(key = KeyGen.new.key_out, date = Time.now)
+  def initialize(key = KeyGen.new.key_out, date = Date.today)
     @key = key.to_i
     # if @key == nil
     #   cracker

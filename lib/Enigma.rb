@@ -1,20 +1,30 @@
+
 require 'pry'
 require 'time'
+require 'date'
 require './lib/offset'
 class Enigma
   attr_reader   :offset,
                 :date,
                 :message,
                 :decrypted,
-                :key_ary
+                :key_ary,
+                :a_ro,
+                :b_ro,
+                :c_ro,
+                :d_ro
 
 
 
   def initialize(offset = Offset.new)
     @offset = offset
     @key = @offset.key
-    @date = Time.now
+    @date = Date.today
     @key_ary = []
+    @a_ro
+    @b_ro
+    @c_ro
+    @d_ro
     set_rotation
     @key_map = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
                'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
@@ -34,7 +44,9 @@ class Enigma
 
 
   def encrypt(message, key = @key, date = @date)
-    @offset = Offset.new(key, date)
+    @offset = Offset.new(key.to_i, date)
+    set_rotation
+    message.chomp
     encrypted = message
     length = message.length
     counter = 0
@@ -63,7 +75,9 @@ class Enigma
 
 
   def decrypt(message, key = @key, date = @date)
-    @offset = Offset.new(key, date)
+    @offset = Offset.new(key.to_i, date)
+    set_rotation
+    message.chomp
     decrypted = message
     length = message.length
     counter = 0
@@ -90,7 +104,7 @@ class Enigma
   end
 
   def rotate(char, key)
-    index= @key_map.find_index(char)
+    index = @key_map.find_index(char)
     @key_map[(index + key) % 39]
   end
 
@@ -165,17 +179,19 @@ class Enigma
   # c_key = @key_map.find_index(".") - c_wo_key
   # d_wo_key = @key_map.find_index(cracker_string[3]) - @offset.offset_array[3]
   # d_key = @key_map.find_index(".") - d_wo_key
-  def write_to_file
-    lines = []
-    File.open(ARGV[0], 'r') do |f1|
-      while line = f1.gets
-        lines << decrypt(line)
-      end
-    end
-    File.open(ARGV[1], 'w') do |f2|
-      f2.puts lines
-    end
-  end
+  # def write_to_file
+  #   lines = []
+  #   File.open(ARGV[0], 'r') do |f1|
+  #     while line = f1.gets
+  #       lines << decrypt(line)
+  #     end
+  #   end
+  #   File.open(ARGV[1], 'w') do |f2|
+  #     f2.puts lines
+  #   end
+  # end
+
+
 
 # end
 #   write = File.new(ARGV[1], "w"){
